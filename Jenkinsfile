@@ -15,13 +15,16 @@ pipeline {
         }
         stage('Smoke Test') {
             steps {
-                bat '%JMETER_HOME%\\bin\\jmeter.bat -n -f -t perf/smoke.jmx -l reports/smoke.jtl'
+                bat '''
+                    if not exist reports mkdir reports
+                    "C:\\Users\\ll317\\Downloads\\apache-jmeter-5.6.3\\bin\\jmeter.bat" -n -f -t perf/smoke.jmx -l reports/smoke.jtl
+                '''
             }
         }
     }
     post {
         always {
-            archiveArtifacts artifacts: 'reports/, html-report/', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'reports/**, html-report/**', allowEmptyArchive: true
         }
     }
 }
