@@ -19,7 +19,12 @@ pipeline {
                 bat '%JMETER_HOME%\\bin\\jmeter.bat -n -t perf/smoke.jmx -l reports/smoke.jtl -e -o html-report -Jthreads=$THREADS -Jloops=$LOOPS'
             }
         }
-    }
+        stage('Response Time Test') {
+            steps {
+                bat '%JMETER_HOME%\\bin\\jmeter.bat -n -t perf/duration.jmx -l reports/duration.jtl'
+            }
+        }
+	}
     post {
         always {
             archiveArtifacts artifacts: 'reports/, html-report/', allowEmptyArchive: true
